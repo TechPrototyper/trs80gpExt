@@ -1,7 +1,7 @@
 # TRS-80 Development Extension - Build System
 # Platform-agnostic Makefile for development and distribution
 
-.PHONY: help install compile watch package clean test lint format check-tools
+.PHONY: help install compile watch package clean test lint format check-tools release-github
 
 # Default target
 help: ## Show this help message
@@ -143,3 +143,17 @@ version-minor: ## Bump minor version and rebuild
 version-major: ## Bump major version and rebuild
 	npm version major
 	$(MAKE) package
+
+# GitHub release management
+release-github: package ## Create GitHub release with VSIX file
+	@echo "🚀 Creating GitHub release..."
+	@if [ ! -f "vsix/trs80gp-extension-1.0.0-release.vsix" ]; then \
+		echo "❌ VSIX file not found. Run 'make package' first."; \
+		exit 1; \
+	fi
+	@command -v gh >/dev/null 2>&1 || { echo "❌ GitHub CLI (gh) is required"; exit 1; }
+	gh release create v1.0.0 vsix/trs80gp-extension-1.0.0-release.vsix \
+		--title "TRS-80 Development Extension v1.0.0" \
+		--notes-file release-notes.md
+	@echo "✅ GitHub release created!"
+	@echo "📦 Download: https://github.com/TechPrototyper/trs80gpExt/releases/latest"

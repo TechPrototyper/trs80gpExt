@@ -68,13 +68,9 @@ Before using this extension, you must install both core tools:
 4. **Add to PATH** or note installation paths for VS Code settings
 
 ### 2. **Install the Extension**
-```bash
-# Install from VSIX file (release v1.0.0)
-code --install-extension trs80gp-extension-1.0.0-release.vsix
-
-# Or from VS Code Marketplace (coming soon)
-# Search for "TRS-80 Development" in Extensions view
-```
+- **Go to**: [GitHub Releases](https://github.com/TechPrototyper/trs80gpExt/releases/latest)
+- **Download**: `trs80gp-extension-1.0.0-release.vsix`
+- **Install**: `code --install-extension trs80gp-extension-1.0.0-release.vsix`
 
 ### 3. **Configure Paths** (if not in PATH)
 Open VS Code settings and configure:
@@ -257,52 +253,91 @@ This extension builds upon the excellent work of:
   - zmac: http://48k.ca/zmac.html
 - **TRS-80 Community** - For preserving this important piece of computing history
 
-## 🚀 Distribution & Installation
+## 🚀 Installation
 
-### **Current Release: v1.0.0**
+### **📦 Download & Install (Recommended)**
 
-**📦 VSIX Installation** (Recommended)
+**Step 1: Download Extension**
+- Go to [Releases](https://github.com/TechPrototyper/trs80gpExt/releases/latest)
+- Download `trs80gp-extension-1.0.0-release.vsix`
+
+**Step 2: Install Extension**
 ```bash
-# Download the latest release VSIX file
-# Install via command line:
+# Command line installation:
 code --install-extension trs80gp-extension-1.0.0-release.vsix
-
-# Or install via VS Code:
-# 1. Open VS Code
-# 2. Go to Extensions view (Ctrl+Shift+X)
-# 3. Click "..." menu → "Install from VSIX..."
-# 4. Select the downloaded VSIX file
 ```
 
-**🏪 VS Code Marketplace** (Coming Soon)
-This extension will be available on the VS Code Marketplace. For now, use the VSIX installation method above.
+**Or install via VS Code UI:**
+1. Open VS Code
+2. Go to Extensions view (`Ctrl+Shift+X` / `Cmd+Shift+X`)
+3. Click "..." menu → "Install from VSIX..."
+4. Select the downloaded VSIX file
+5. Restart VS Code when prompted
 
-**🔧 Build from Source**
-```bash
-git clone https://github.com/TechPrototyper/trs80gpExt.git
-cd trs80gpExt
-npm install
-npm run compile
-npm run package
-```
+### **✅ Verify Installation**
 
-## 🛠️ Development
+After installation, verify the extension is working:
+
+1. **Check Extensions List**: Look for "TRS-80 Development" in your installed extensions
+2. **Open Command Palette**: Press `Ctrl+Shift+P` (`Cmd+Shift+P` on macOS)
+3. **Type "TRS-80"**: You should see commands like:
+   - `TRS-80: Run`
+   - `TRS-80: Debug`
+   - `TRS-80: Status`
+
+### **⚠️ Expected Warnings**
+
+**"Extension is not signed" Warning**
+- This is normal for VSIX installations outside the official store
+- Click "Install Anyway" to proceed
+- The extension is safe - it's distributed directly from our GitHub repository
+
+**Missing Tools Warnings**
+- If you see "trs80gp not found" or "zmac not found" messages
+- This means you need to install the required tools (see Core Requirements above)
+- The extension will guide you to download them from http://48k.ca/
+
+### **🏪 Why Not on VS Code Marketplace?**
+
+This extension is currently distributed via GitHub Releases because:
+- **Publisher Requirements**: Official store publishing requires additional verification steps
+- **Direct Distribution**: GitHub Releases provide immediate access without delays
+- **Community Focus**: TRS-80 development is a specialized community - direct distribution works well
+- **Future Planning**: Official store publication may be considered based on community feedback
+
+**Advantages of GitHub Release Distribution:**
+- ✅ Immediate updates and releases
+- ✅ Complete transparency (source code visible)
+- ✅ No artificial restrictions or review delays
+- ✅ Direct community feedback via GitHub Issues
+
+## 🛠️ Development & Building
 
 ### Building from Source
+
+If you want to build the extension yourself or contribute to development:
 
 ```bash
 # Clone the repository
 git clone https://github.com/TechPrototyper/trs80gpExt.git
 cd trs80gpExt
 
-# Install dependencies
-npm install
+# Install dependencies and build
+make setup
 
-# Compile TypeScript
-npm run compile
+# Or step by step:
+npm install          # Install dependencies
+npm run compile      # Compile TypeScript
+make package         # Create VSIX file
+```
 
-# Package extension
-npm run package
+### Development Commands
+
+```bash
+make help           # Show all available commands
+make watch          # Watch for changes and recompile
+make test           # Run tests
+make clean          # Clean build artifacts
 ```
 
 ### Requirements for Development
