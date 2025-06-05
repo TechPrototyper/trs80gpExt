@@ -1,0 +1,175 @@
+{
+  "name": "trs80gpExt",
+  "displayName": "TRS-80 Development",
+  "description": "Z-80 development with trs80gp emulator and zmac assembler",
+  "version": "0.1.2",
+  "publisher": "trs80dev",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/trs80dev/trs80gpExt.git"
+  },
+  "engines": {
+    "vscode": "^1.100.0"
+  },
+  "categories": [
+    "Programming Languages",
+    "Debuggers"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "trs80gp.run",
+        "title": "TRS-80: Run",
+        "category": "TRS-80"
+      },
+      {
+        "command": "trs80gp.debug",
+        "title": "TRS-80: Debug",
+        "category": "TRS-80"
+      },
+      {
+        "command": "trs80gp.assemble",
+        "title": "TRS-80: Assemble Only",
+        "category": "TRS-80"
+      },
+      {
+        "command": "trs80gp.stop",
+        "title": "TRS-80: Stop Emulator",
+        "category": "TRS-80"
+      },
+      {
+        "command": "trs80gp.status",
+        "title": "TRS-80: Show Status",
+        "category": "TRS-80"
+      },
+      {
+        "command": "trs80gp.createConfig",
+        "title": "TRS-80: Create Project Configuration",
+        "category": "TRS-80"
+      }
+    ],
+    "configuration": {
+      "title": "TRS-80",
+      "properties": {
+        "trs80gp.emulatorPath": {
+          "type": "string",
+          "default": "",
+          "description": "Path to trs80gp emulator executable"
+        },
+        "trs80gp.zmacPath": {
+          "type": "string",
+          "default": "zmac",
+          "description": "Path to zmac assembler (default: 'zmac' from PATH)"
+        },
+        "trs80gp.defaultOutputDir": {
+          "type": "string",
+          "default": ".zout",
+          "description": "Default output directory for zmac compilation"
+        },
+        "trs80gp.defaultEmulatorArgs": {
+          "type": "array",
+          "default": [
+            "-m3"
+          ],
+          "description": "Default arguments for trs80gp emulator"
+        },
+        "trs80gp.defaultTarget": {
+          "type": "string",
+          "enum": [
+            "model1",
+            "model3",
+            "model4"
+          ],
+          "default": "model3",
+          "description": "Default TRS-80 model target"
+        },
+        "trs80gp.autoAssemble": {
+          "type": "boolean",
+          "default": true,
+          "description": "Automatically assemble when source files change"
+        }
+      }
+    },
+    "languages": [
+      {
+        "id": "z80asm",
+        "aliases": [
+          "Z80 Assembly",
+          "z80asm"
+        ],
+        "extensions": [
+          ".z",
+          ".asm",
+          ".s",
+          ".a80"
+        ],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "z80asm",
+        "scopeName": "source.z80asm",
+        "path": "./syntaxes/z80asm.tmGrammar.json"
+      }
+    ],
+    "debuggers": [
+      {
+        "type": "trs80gp",
+        "label": "TRS-80 Debug",
+        "languages": [
+          "z80asm"
+        ],
+        "configurationAttributes": {
+          "launch": {
+            "required": [],
+            "properties": {
+              "program": {
+                "type": "string",
+                "description": "Assembly file to debug"
+              },
+              "stopOnEntry": {
+                "type": "boolean",
+                "description": "Automatically stop after launch.",
+                "default": true
+              }
+            }
+          }
+        },
+        "initialConfigurations": [
+          {
+            "type": "trs80gp",
+            "request": "launch",
+            "name": "Debug TRS-80 Assembly",
+            "stopOnEntry": true
+          }
+        ]
+      }
+    ],
+    "breakpoints": [
+      {
+        "language": "z80asm"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src",
+    "test": "vscode-test"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.100.0",
+    "@types/mocha": "^10.0.10",
+    "@types/node": "20.x",
+    "@typescript-eslint/eslint-plugin": "^8.31.1",
+    "@typescript-eslint/parser": "^8.31.1",
+    "eslint": "^9.25.1",
+    "typescript": "^5.8.3",
+    "@vscode/test-cli": "^0.0.10",
+    "@vscode/test-electron": "^2.5.2"
+  }
+}
