@@ -1,24 +1,27 @@
 # TRS-80 Development Extension for VS Code
 
-A comprehensive Visual Studio Code extension for Z-80 assembly development targeting the TRS-80 computer series. This extension provides an integrated development environment with emulation, debugging, and modern IDE features for retro computing enthusiasts and developers.
+A Visual Studio Code extension that integrates **trs80gp emulator** and **zmac assembler** by George Phillips to provide a complete Z-80 assembly development environment for TRS-80 computers. This extension acts as a bridge between VS Code and these essential TRS-80 development tools.
+
+**⚠️ Important:** This extension requires both **trs80gp** and **zmac** to function. They are not optional dependencies but core requirements that must be installed separately.
 
 ## ✨ Features
 
-### 🎯 **Integrated Development Workflow**
-- **Run & Debug**: Execute Z-80 assembly code directly from VS Code using trs80gp emulator
-- **One-Click Assembly**: Automatic compilation with zmac assembler when source files change
-- **Smart File Detection**: Supports `.a80`, `.z`, `.asm`, and `.s` assembly file extensions
+### 🎯 **trs80gp Emulator Integration**
+- **Direct Execution**: Run your Z-80 assembly code immediately in the trs80gp emulator
+- **Debug Support**: Full debugging with breakpoints, stepping, and memory inspection
+- **Model Support**: Target TRS-80 Model I, III, or 4 via emulator arguments
+- **Process Management**: Automatic emulator lifecycle management
 
-### 🐛 **Advanced Debugging**
-- **VS Code Breakpoints**: Set breakpoints directly in the editor - they're automatically converted to emulator breakpoints
-- **Symbol Integration**: Automatic loading of debug symbols (BDS files) for accurate debugging
-- **Entry Point Detection**: Smart detection of program entry points from assembly output
-- **Real-time Debugging**: Step through code, examine memory, and set multiple breakpoints
+### 🔧 **zmac Assembler Integration**
+- **Automatic Assembly**: Compile your source files when they change
+- **Error Navigation**: Click on assembly errors to jump to source locations
+- **Symbol Generation**: Automatic debug symbol (BDS) file creation
+- **Multi-format Output**: Generate CMD, HEX, CAS, and WAV files
 
-### 🎨 **Developer Experience**
-- **Syntax Highlighting**: Full Z-80 assembly syntax highlighting with mnemonics, registers, and directives
-- **Error Navigation**: Click on assembly errors to jump directly to the problematic source line
-- **Output Channels**: Dedicated output channels for assembly, emulator, and extension messages
+### 🐛 **VS Code Integration**
+- **Breakpoint Conversion**: VS Code breakpoints automatically work in trs80gp debugger
+- **Syntax Highlighting**: Complete Z-80 assembly language support
+- **Smart Detection**: Supports `.a80`, `.z`, `.asm`, and `.s` file extensions
 - **Status Tracking**: Monitor emulator process status and uptime
 
 ### ⚙️ **Flexible Configuration**
@@ -27,53 +30,45 @@ A comprehensive Visual Studio Code extension for Z-80 assembly development targe
 - **Robust Defaults**: Sensible fallback configuration when settings are missing
 - **Multi-Model Support**: Target TRS-80 Model I, III, or 4
 
-## 📋 Requirements
+## 📋 Core Requirements
 
-This extension requires two external tools to function:
+This extension requires two essential tools by **George Phillips** to function:
 
-### 🎮 **TRS-80GP Emulator**
-A high-fidelity TRS-80 emulator by **George Phillips** with debugging support.
+### 🎮 **trs80gp Emulator (Required)**
+A high-fidelity TRS-80 emulator with comprehensive debugging support.
 
-**macOS Installation:**
-```bash
-# Download from: http://48k.ca/trs80gp.html
-# Extract to: /Applications/trs80gp.app/
-```
+**Download:** http://48k.ca/trs80gp.html
 
-**Linux/Windows:**
-```bash
-# Download appropriate version from: http://48k.ca/trs80gp.html
-# Install according to platform instructions
-```
+**Installation:**
+- Download the appropriate version for your platform (macOS, Linux, Windows)
+- Install according to platform instructions
+- Either add to your system PATH or configure the full path in extension settings
 
-### 🔧 **ZMAC Assembler**
-A Z-80 macro assembler by **George Phillips** that generates TRS-80 compatible output.
+### 🔧 **zmac Assembler (Required)**  
+A Z-80 macro assembler that generates TRS-80 compatible output with debug symbols.
 
-**macOS Installation:**
-```bash
-# Using Homebrew
-brew install zmac
+**Download:** http://48k.ca/zmac.html
 
-# Or download from: http://48k.ca/zmac.html
-```
+**Installation:**
+- Download the appropriate version for your platform
+- Install according to platform instructions  
+- Either add to your system PATH or configure the full path in extension settings
 
-**Linux Installation:**
-```bash
-# Most distributions
-sudo apt-get install zmac
-# or
-sudo yum install zmac
-```
-
-**Windows Installation:**
-```bash
-# Download from: http://48k.ca/zmac.html
-# Add to PATH environment variable
-```
+**Configuration Options:**
+1. **Add to PATH** (Recommended): Install tools so they're globally accessible
+2. **Configure Paths**: Set `trs80gp.emulatorPath` and `trs80gp.zmacPath` in VS Code settings
 
 ## 🚀 Quick Start
 
-### 1. **Install the Extension**
+### 1. **Install Required Tools**
+Before using this extension, you must install both core tools:
+
+1. **Download trs80gp emulator** from http://48k.ca/trs80gp.html
+2. **Download zmac assembler** from http://48k.ca/zmac.html  
+3. **Install both tools** according to their platform instructions
+4. **Add to PATH** or note installation paths for VS Code settings
+
+### 2. **Install the Extension**
 ```bash
 # Install from VSIX file (release v1.0.0)
 code --install-extension trs80gp-extension-1.0.0-release.vsix
@@ -82,14 +77,19 @@ code --install-extension trs80gp-extension-1.0.0-release.vsix
 # Search for "TRS-80 Development" in Extensions view
 ```
 
-### 2. **Create a Project**
+### 3. **Configure Paths** (if not in PATH)
+Open VS Code settings and configure:
+- `trs80gp.emulatorPath`: Full path to trs80gp executable
+- `trs80gp.zmacPath`: Full path to zmac executable
+
+### 4. **Create a Project**
 ```bash
 mkdir my-trs80-project
 cd my-trs80-project
 code .
 ```
 
-### 3. **Create Your First Program**
+### 5. **Create Your First Program**
 Create a file named `hello.a80`:
 ```z80asm
 ; hello.a80 - Simple TRS-80 "Hello World" program
@@ -106,18 +106,24 @@ hello_msg:
         end     main            ; Entry point is main
 ```
 
-### 4. **Configure the Project** (Optional)
+### 6. **Configure the Project** (Optional)
 Create `.vscode/trs80gp.json`:
 ```json
 {
   "outputDir": ".zout",
+  "zmacArgs": [
+    "--od",
+    ".zout",
+    "-L",
+    "-m"
+  ],
   "emulatorArgs": ["-m3"],
   "target": "model3",
   "defaultSourceFile": "hello.a80"
 }
 ```
 
-### 5. **Run Your Program**
+### 7. **Run Your Program**
 - **Press `Ctrl+Shift+P`** (Cmd+Shift+P on macOS)
 - **Type**: `TRS-80: Debug` or `TRS-80: Run`
 - **Watch**: Your program compile and run in the TRS-80 emulator!
@@ -141,19 +147,7 @@ Create `.vscode/trs80gp.json`:
 3. Run **TRS-80: Debug** command
 4. The emulator will stop at your breakpoints for inspection
 
-### Debugging Commands in Emulator
-
-Once the emulator is running in debug mode:
-
-| Command | Description |
-|---------|-------------|
-| `G 6000` | Go (run) starting at address $6000 |
-| `T` | Trace (single step) |
-| `D 6000` | Display memory starting at $6000 |
-| `B 6000` | Set breakpoint at $6000 |
-| `BC` | Clear all breakpoints |
-| `R` | Show registers |
-| `Q` | Quit emulator |
+**Note:** This extension converts VS Code breakpoints to the appropriate format for the trs80gp emulator's debugging interface. Refer to the trs80gp emulator documentation for specific debugging commands within the emulator.
 
 ## ⚙️ Configuration
 
@@ -179,12 +173,32 @@ Create `.vscode/trs80gp.json` in your project root to override global settings:
 ```json
 {
   "outputDir": ".zout",
-  "zmacArgs": ["--od", ".zout", "-L", "-m"],
+  "zmacArgs": [
+    "--od",
+    ".zout",
+    "-L",
+    "-m"
+  ],
   "emulatorArgs": ["-m3"],
   "target": "model3",
-  "defaultSourceFile": "hello.a80"
+  "defaultSourceFile": "main.a80"
 }
 ```
+
+**Configuration Options:**
+
+| Setting | Description | Example Values |
+|---------|-------------|----------------|
+| `outputDir` | Directory for assembled output | `.zout`, `build`, `output` |
+| `zmacArgs` | Arguments passed to zmac assembler | See example above |
+| `emulatorArgs` | Arguments passed to trs80gp | `["-m1"]`, `["-m3"]`, `["-m4"]` |
+| `target` | Target TRS-80 model | `model1`, `model3`, `model4` |
+| `defaultSourceFile` | Default file to assemble/run | `main.a80`, `program.asm` |
+
+**ZMAC Arguments Explained:**
+- `--od .zout` - Set output directory
+- `-L` - Generate listing file (.lst)
+- `-m` - Generate symbol file (.bds) for debugging
 
 ### Target Models
 
@@ -328,41 +342,13 @@ npm run compile
 npm run package
 ```
 
-## 📝 Release Notes
-
-### 1.0.0 (Current Release)
-- 🎉 **First stable release!** 
-- ✅ Complete TRS-80 development workflow
-- ✅ Professional file organization and packaging
-- ✅ Comprehensive documentation and examples
-- ✅ Robust configuration fallback system
-- ✅ Enhanced error handling and validation
-- ✅ Improved breakpoint address detection
-- ✅ Reduced notification spam with output channels
-- ✅ Production-ready CI/CD pipeline setup
-
-### 0.1.2 (Development)
-- ✅ Robust configuration fallback system
-- ✅ Enhanced error handling and validation
-- ✅ Improved breakpoint address detection
-- ✅ Reduced notification spam with output channels
-- ✅ Comprehensive debugging support
-
-### 0.1.0 (Initial)
-- 🎉 Initial release
-- ⚙️ TRS-80GP emulator integration
-- 🔧 ZMAC assembler support
-- 🐛 VS Code breakpoint conversion
-- 🎨 Z-80 assembly syntax highlighting
-- 📁 Flexible configuration system
-
 ## 🛠️ Development
 
 ### Building from Source
 
 ```bash
 # Clone the repository
-git clone <repository-url>
+git clone https://github.com/TechPrototyper/trs80gpExt.git
 cd trs80gpExt
 
 # Install dependencies
@@ -397,8 +383,10 @@ MIT License - see [LICENSE](LICENSE) file for details.
 
 **Happy TRS-80 development! 🎮✨**
 
-This VS Code extension is open source. Please refer to the licenses of the individual tools:
-- TRS-80GP and ZMAC are created by George Phillips
-- Check [48k.ca](https://48k.ca/) for their respective license terms
+This VS Code extension integrates the essential TRS-80 development tools:
+- **trs80gp emulator** and **zmac assembler** are created by **George Phillips**
+- Download both tools from [48k.ca](https://48k.ca/)
+- This extension is not affiliated with but requires these tools to function
+- Check [48k.ca](https://48k.ca/) for the tools' respective license terms
 
 **Enjoy developing for the TRS-80!**
