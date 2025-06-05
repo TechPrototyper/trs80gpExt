@@ -2,11 +2,11 @@
   "name": "trs80gpExt",
   "displayName": "TRS-80 Development",
   "description": "Z-80 development with trs80gp emulator and zmac assembler",
-  "version": "0.1.2",
-  "publisher": "trs80dev",
+  "version": "1.0.0",
+  "publisher": "TechPrototyper",
   "repository": {
     "type": "git",
-    "url": "https://github.com/trs80dev/trs80gpExt.git"
+    "url": "https://github.com/TechPrototyper/trs80gpExt.git"
   },
   "engines": {
     "vscode": "^1.100.0"

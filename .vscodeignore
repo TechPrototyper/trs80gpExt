@@ -1,0 +1,47 @@
+# VS Code Extension - Files to exclude from package
+
+# Source files and build configuration
+.vscode/**
+.vscode-test/**
+src/**
+tsconfig.json
+eslint.config.mjs
+.vscode-test.mjs
+
+# Git and development files
+.git/**
+.gitignore
+.github/**
+
+# Documentation and test files
+docs-internal/**
+testcases/**
+vsc-extension-quickstart.md
+
+# VSIX files directory
+vsix/**
+
+# Build artifacts and outputs
+.zout/**
+build/**
+out/**/*.map
+**/*.ts
+
+# Node.js and development
+node_modules/**
+npm-debug.log*
+.npm/**
+
+# macOS and system files
+.DS_Store
+**/.DS_Store
+
+# Development and testing files
+**/.vscode-test.*
+hello.a80
+copilot-instructions.md
+
+# Package managers
+.yarnrc
+yarn.lock
+package-lock.json

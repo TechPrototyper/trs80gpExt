@@ -1,0 +1,148 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "Z80 Assembly",
+  "patterns": [
+    {
+      "include": "#comments"
+    },
+    {
+      "include": "#labels"
+    },
+    {
+      "include": "#instructions"
+    },
+    {
+      "include": "#directives"
+    },
+    {
+      "include": "#numbers"
+    },
+    {
+      "include": "#strings"
+    },
+    {
+      "include": "#registers"
+    }
+  ],
+  "repository": {
+    "comments": {
+      "patterns": [
+        {
+          "name": "comment.line.semicolon.z80asm",
+          "match": ";.*$"
+        }
+      ]
+    },
+    "labels": {
+      "patterns": [
+        {
+          "name": "entity.name.function.z80asm",
+          "match": "^[a-zA-Z_][a-zA-Z0-9_]*:"
+        }
+      ]
+    },
+    "instructions": {
+      "patterns": [
+        {
+          "name": "keyword.control.z80asm",
+          "match": "(?i)\\b(jp|jr|call|ret|reti|retn|rst)\\b"
+        },
+        {
+          "name": "keyword.operator.z80asm",
+          "match": "(?i)\\b(ld|push|pop|ex|exx)\\b"
+        },
+        {
+          "name": "keyword.operator.arithmetic.z80asm",
+          "match": "(?i)\\b(add|adc|sub|sbc|and|or|xor|cp|inc|dec|daa|cpl|neg|ccf|scf)\\b"
+        },
+        {
+          "name": "keyword.operator.shift.z80asm",
+          "match": "(?i)\\b(rlca|rla|rrca|rra|rlc|rl|rrc|rr|sla|sra|srl|rld|rrd)\\b"
+        },
+        {
+          "name": "keyword.operator.bit.z80asm",
+          "match": "(?i)\\b(bit|set|res)\\b"
+        },
+        {
+          "name": "keyword.operator.io.z80asm",
+          "match": "(?i)\\b(in|out|ini|inir|ind|indr|outi|otir|outd|otdr)\\b"
+        },
+        {
+          "name": "keyword.operator.block.z80asm",
+          "match": "(?i)\\b(ldi|ldir|ldd|lddr|cpi|cpir|cpd|cpdr)\\b"
+        },
+        {
+          "name": "keyword.control.z80asm",
+          "match": "(?i)\\b(nop|halt|di|ei|im)\\b"
+        }
+      ]
+    },
+    "directives": {
+      "patterns": [
+        {
+          "name": "keyword.control.directive.z80asm",
+          "match": "(?i)\\b(org|equ|defw|defb|defs|db|dw|ds|end|include)\\b"
+        }
+      ]
+    },
+    "registers": {
+      "patterns": [
+        {
+          "name": "variable.language.register.z80asm",
+          "match": "(?i)\\b(a|b|c|d|e|h|l|af|bc|de|hl|sp|ix|iy|ixh|ixl|iyh|iyl|i|r)\\b"
+        },
+        {
+          "name": "variable.language.condition.z80asm",
+          "match": "(?i)\\b(nz|z|nc|c|po|pe|p|m)\\b"
+        }
+      ]
+    },
+    "numbers": {
+      "patterns": [
+        {
+          "name": "constant.numeric.hex.z80asm",
+          "match": "\\$[0-9A-Fa-f]+"
+        },
+        {
+          "name": "constant.numeric.hex.z80asm",
+          "match": "0[xX][0-9A-Fa-f]+"
+        },
+        {
+          "name": "constant.numeric.binary.z80asm",
+          "match": "%[01]+"
+        },
+        {
+          "name": "constant.numeric.decimal.z80asm",
+          "match": "\\b[0-9]+\\b"
+        }
+      ]
+    },
+    "strings": {
+      "patterns": [
+        {
+          "name": "string.quoted.double.z80asm",
+          "begin": "\"",
+          "end": "\"",
+          "patterns": [
+            {
+              "name": "constant.character.escape.z80asm",
+              "match": "\\\\."
+            }
+          ]
+        },
+        {
+          "name": "string.quoted.single.z80asm",
+          "begin": "'",
+          "end": "'",
+          "patterns": [
+            {
+              "name": "constant.character.escape.z80asm",
+              "match": "\\\\."
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "scopeName": "source.z80asm"
+}
