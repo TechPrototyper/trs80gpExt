@@ -20,7 +20,6 @@ A Visual Studio Code extension that integrates **trs80gp emulator** and **zmac a
 
 ### 🐛 **VS Code Integration**
 - **Breakpoint Conversion**: VS Code breakpoints automatically work in trs80gp debugger
-- **Syntax Highlighting**: Complete Z-80 assembly language support
 - **Smart Detection**: Supports `.a80`, `.z`, `.asm`, and `.s` file extensions
 - **Status Tracking**: Monitor emulator process status and uptime
 
@@ -240,45 +239,6 @@ The assembler generates comprehensive output in the `.zout/` directory:
 - **`.wav`** - Audio cassette files (multiple baud rates)
 - **`.ams`** - Assembled source with expansions
 
-## 🎨 Syntax Highlighting
-
-Full Z-80 assembly language support:
-
-- **📝 Instructions**: All Z-80 opcodes (`LD`, `ADD`, `JP`, etc.)
-- **📋 Registers**: `A`, `B`, `C`, `D`, `E`, `H`, `L`, `AF`, `BC`, `DE`, `HL`, `IX`, `IY`, `SP`
-- **🏷️ Directives**: `ORG`, `EQU`, `DB`, `DW`, `DS`, `END`, `INCLUDE`
-- **🎯 Labels**: Automatic recognition and highlighting
-- **💬 Comments**: Both `;` and `//` style comments
-- **🔢 Numbers**: Hex (`$FF`, `0xFF`), binary (`%11111111`), decimal
-
-## 🐛 Troubleshooting
-
-### Common Issues
-
-**❓ "Emulator not found" error**
-- Verify trs80gp is installed and path is correct in settings
-- Check that the executable has proper permissions
-
-**❓ "Assembly failed" error**
-- Ensure zmac is installed and in PATH
-- Check source file syntax for errors
-- Review assembly output in the Output channel
-
-**❓ Breakpoints not working**
-- Verify `.bds` file is generated during assembly
-- Check that line numbers correspond to actual instructions
-- Ensure debug symbols are loaded in emulator
-
-**❓ Extension not recognizing files**
-- Supported extensions: `.a80`, `.z`, `.asm`, `.s`
-- Check file association in VS Code settings
-- **`.250.cas/.250.wav`** - 250 baud cassette audio
-- **`.500.cas/.500.wav`** - 500 baud cassette audio  
-- **`.1000.cas/.1000.wav`** - 1000 baud cassette audio
-- **`.1500.cas/.1500.wav`** - 1500 baud cassette audio
-
-The optimal assembler arguments `["--od", ".zout", "-L", "-m"]` ensure all formats are generated for maximum compatibility with different TRS-80 systems and emulators.
-
 ## Credits
 
 This extension integrates excellent tools:
@@ -287,15 +247,6 @@ This extension integrates excellent tools:
 - **zmac**: A powerful Z-80 macro assembler, with enhanced version provided by George Phillips
 
 Visit [George Phillips' homepage at 48k.ca](https://48k.ca/) for documentation, updates, and additional TRS-80 development tools.
-
-### Getting Help
-
-1. **Check Output Channels**: View detailed logs in VS Code Output panel
-   - Select "TRS-80 Development" channel for extension messages
-   - Select "TRS-80 Emulator" channel for emulator output
-
-2. **Verify Tool Installation**: Ensure both trs80gp and zmac are properly installed
-3. **Check Configuration**: Validate settings in VS Code and project config files
 
 ## 🤝 Attribution & Credits
 
