@@ -119,21 +119,27 @@ Create `.vscode/trs80gp.json`:
 ```
 
 ### 7. **Run Your Program**
-- **Press `Ctrl+Shift+P`** (Cmd+Shift+P on macOS)
+- **Open Command Palette**: Press `Ctrl+Shift+P` (Cmd+Shift+P on macOS)
 - **Type**: `TRS-80: Debug` or `TRS-80: Run`
 - **Watch**: Your program compile and run in the TRS-80 emulator!
+
+**Note:** Commands are accessed via Command Palette. You can optionally assign keyboard shortcuts in VS Code's Keyboard Shortcuts editor.
 
 ## 📖 Usage
 
 ### Available Commands
 
-| Command | Description | Shortcut |
-|---------|-------------|----------|
-| **TRS-80: Run** | Assemble and run program | `Ctrl+F5` |
-| **TRS-80: Debug** | Assemble and debug with breakpoints | `F5` |
-| **TRS-80: Assemble Only** | Compile without running | `Ctrl+Shift+B` |
-| **TRS-80: Stop** | Stop running emulator | `Shift+F5` |
-| **TRS-80: Status** | Show emulator status | - |
+Access all commands via **Command Palette** (`Ctrl+Shift+P` / `Cmd+Shift+P`):
+
+| Command | Description |
+|---------|-------------|
+| **TRS-80: Run** | Assemble and run program |
+| **TRS-80: Debug** | Assemble and debug with breakpoints |
+| **TRS-80: Assemble Only** | Compile without running |
+| **TRS-80: Stop** | Stop running emulator |
+| **TRS-80: Status** | Show emulator status |
+
+**Tip:** You can assign custom keyboard shortcuts to these commands in VS Code's Keyboard Shortcuts editor (`Ctrl+K Ctrl+S`).
 
 ### Setting Breakpoints
 

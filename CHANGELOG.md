@@ -5,6 +5,40 @@ All notable changes to the TRS-80 Development Extension will be documented in th
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.0] - 2025-01-03
+
+### Release Highlights
+- **Production Ready**: Complete VS Code extension for TRS-80 development
+- **Distribution**: Available via GitHub Releases with VSIX downloads
+- **Command Palette Access**: All commands accessible via Command Palette (`Ctrl+Shift+P` / `Cmd+Shift+P`)
+- **Tool Integration**: Full trs80gp emulator and zmac assembler integration
+- **Documentation**: Comprehensive README with installation and usage guides
+
+### Added
+- Complete VS Code extension package with proper metadata
+- GitHub Releases distribution system with VSIX attachments
+- Professional README with installation from GitHub instructions
+- Command Palette-focused user interface
+- Platform-agnostic Makefile for development and distribution
+- Git repository initialization and GitHub synchronization
+- Comprehensive `.gitignore` and `.vscodeignore` configurations
+
+### Fixed
+- Documentation accuracy regarding command access methods
+- Tool naming consistency (trs80gp/zmac lowercase throughout)
+- Configuration fallback robustness when project files missing
+- Package optimization excluding development files from distribution
+
+### Distribution
+- **GitHub Repository**: https://github.com/TechPrototyper/trs80gpExt
+- **Download VSIX**: https://github.com/TechPrototyper/trs80gpExt/releases/latest
+- **Installation**: `code --install-extension trs80gp-extension-1.0.0-release.vsix`
+
+### Note
+- Commands accessed via Command Palette - no default keyboard shortcuts defined
+- Optional custom keyboard shortcuts can be assigned in VS Code's Keyboard Shortcuts editor
+- Extension requires separate installation of trs80gp and zmac tools
+
 ## [0.1.2] - 2025-06-05
 
 ### Added
