@@ -195,7 +195,7 @@ Create `.vscode/trs80gp.json` in your project root to override global settings:
 | `target` | Target TRS-80 model | `model1`, `model3`, `model4` |
 | `defaultSourceFile` | Default file to assemble/run | `main.a80`, `program.asm` |
 
-**ZMAC Arguments Explained:**
+**zmac Arguments Explained:**
 - `--od .zout` - Set output directory
 - `-L` - Generate listing file (.lst)
 - `-m` - Generate symbol file (.bds) for debugging
@@ -279,19 +279,12 @@ Full Z-80 assembly language support:
 
 The optimal assembler arguments `["--od", ".zout", "-L", "-m"]` ensure all formats are generated for maximum compatibility with different TRS-80 systems and emulators.
 
-## Known Issues
-
-- Breakpoint address calculation requires successful assembly
-- Emulator must support `-debug` flag for breakpoint functionality  
-- Path configuration may require restart after changes
-- Large assembly projects may experience slower auto-assembly
-
 ## Credits
 
 This extension integrates excellent tools:
 
-- **TRS-80GP**: A faithful TRS-80 Model I/III emulator with debugging capabilities, created by George Phillips
-- **ZMAC**: A powerful Z-80 macro assembler, with enhanced version provided by George Phillips
+- **trs80gp**: A faithful TRS-80 Model I/III emulator with debugging capabilities, created by George Phillips
+- **zmac**: A powerful Z-80 macro assembler, with enhanced version provided by George Phillips
 
 Visit [George Phillips' homepage at 48k.ca](https://48k.ca/) for documentation, updates, and additional TRS-80 development tools.
 
@@ -308,9 +301,9 @@ Visit [George Phillips' homepage at 48k.ca](https://48k.ca/) for documentation, 
 
 This extension builds upon the excellent work of:
 
-- **George Phillips** - Creator of TRS-80GP emulator and ZMAC assembler
-  - TRS-80GP: http://48k.ca/trs80gp.html
-  - ZMAC: http://48k.ca/zmac.html
+- **George Phillips** - Creator of trs80gp emulator and zmac assembler
+  - trs80gp: http://48k.ca/trs80gp.html
+  - zmac: http://48k.ca/zmac.html
 - **TRS-80 Community** - For preserving this important piece of computing history
 
 ## 🚀 Distribution & Installation
