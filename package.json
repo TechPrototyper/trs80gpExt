@@ -67,12 +67,10 @@
           "default": ".zout",
           "description": "Default output directory for zmac compilation"
         },
-        "trs80gp.defaultEmulatorArgs": {
-          "type": "array",
-          "default": [
-            "-m3"
-          ],
-          "description": "Default arguments for trs80gp emulator"
+        "trs80gp.emulatorArgs": {
+          "type": "string",
+          "default": "",
+          "description": "Additional command line arguments for trs80gp emulator (space-separated string, does not include model argument). Can be overridden per project in .vscode/trs80gp.json."
         },
         "trs80gp.defaultTarget": {
           "type": "string",
@@ -156,20 +154,11 @@
   "scripts": {
     "vscode:prepublish": "npm run compile",
     "compile": "tsc -p ./",
-    "watch": "tsc -watch -p ./",
-    "pretest": "npm run compile && npm run lint",
-    "lint": "eslint src",
-    "test": "vscode-test"
+    "watch": "tsc -watch -p ./"
   },
   "devDependencies": {
     "@types/vscode": "^1.100.0",
-    "@types/mocha": "^10.0.10",
     "@types/node": "20.x",
-    "@typescript-eslint/eslint-plugin": "^8.31.1",
-    "@typescript-eslint/parser": "^8.31.1",
-    "eslint": "^9.25.1",
-    "typescript": "^5.8.3",
-    "@vscode/test-cli": "^0.0.10",
-    "@vscode/test-electron": "^2.5.2"
+    "typescript": "^5.8.3"
   }
 }

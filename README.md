@@ -25,7 +25,9 @@ A Visual Studio Code extension that integrates **trs80gp emulator** and **zmac a
 
 ### ⚙️ **Flexible Configuration**
 - **Global Settings**: Configure emulator and assembler paths in VS Code settings
-- **Project Configuration**: Override settings per project using `.vscode/trs80gp.json`
+- **Emulator Arguments**: Set default command line arguments for `trs80gp` using `trs80gp.emulatorArgs` (string, e.g. `-m3`).
+- **Project Configuration**: Override any setting per project using `.vscode/trs80gp.json`. You can set `"emulatorArgs": "..."` (string) to override globally, or set to `""` for no extra arguments.
+- **Override Logic**: If project config sets `emulatorArgs` (even to empty string), it overrides global. If not set, global is used. If neither, default is `-m3`.
 - **Robust Defaults**: Sensible fallback configuration when settings are missing
 - **Multi-Model Support**: Target TRS-80 Model I, III, or 4
 
@@ -70,7 +72,18 @@ Before using this extension, you must install both core tools:
 ### 2. **Install the Extension**
 - **Go to**: [GitHub Releases](https://github.com/TechPrototyper/trs80gpExt/releases/latest)
 - **Download**: `trs80gp-extension-1.0.0-release.vsix`
-- **Install**: `code --install-extension trs80gp-extension-1.0.0-release.vsix`
+
+**Install via VS Code GUI:**
+1. Open VS Code
+2. Open Extensions view (`Ctrl+Shift+X` or click Extensions icon in sidebar)
+3. Click the **`⋯`** (three dots) menu in the Extensions view top bar
+4. Select **"Install from VSIX..."**
+5. Browse to and select the downloaded `.vsix` file
+
+**OR Install via Command Line:**
+```bash
+code --install-extension trs80gp-extension-1.0.0-release.vsix
+```
 
 ### 3. **Configure Paths** (if not in PATH)
 Open VS Code settings and configure:
@@ -216,7 +229,7 @@ The extension works with this typical project structure:
 ```
 your-trs80-project/
 ├── .vscode/
-│   └── trs80gp.json          # Project configuration
+│   └── trs80gp.json          # Project configuration (optional)
 ├── *.a80                     # Assembly source files
 ├── .zout/                    # Generated output files
 │   ├── *.cmd                 # TRS-80 executable
@@ -329,27 +342,26 @@ git clone https://github.com/TechPrototyper/trs80gpExt.git
 cd trs80gpExt
 
 # Install dependencies and build
-make setup
-
-# Or step by step:
 npm install          # Install dependencies
 npm run compile      # Compile TypeScript
-make package         # Create VSIX file
+
+# Create VSIX package (requires vsce)
+npm install -g vsce
+vsce package
 ```
 
 ### Development Commands
 
 ```bash
-make help           # Show all available commands
-make watch          # Watch for changes and recompile
-make test           # Run tests
-make clean          # Clean build artifacts
+npm run compile     # Compile TypeScript
+npm run watch       # Watch for changes and recompile
 ```
 
 ### Requirements for Development
 - Node.js 16+
 - TypeScript
 - VS Code Extension API
+- vsce (for packaging)
 
 ## 🤝 Contributing
 

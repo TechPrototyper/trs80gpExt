@@ -5,7 +5,7 @@ import * as fs from 'fs';
 export interface ProjectConfig {
   outputDir?: string;
   zmacArgs?: string[];
-  emulatorArgs?: string[];
+  emulatorArgs?: string;
   defaultSourceFile?: string;
   target?: 'model1' | 'model3' | 'model4';
 }
@@ -14,7 +14,7 @@ export interface TRS80Config {
   emulatorPath: string;
   zmacPath: string;
   outputDir: string;
-  emulatorArgs: string[];
+  emulatorArgs: string;
   target: 'model1' | 'model3' | 'model4';
   autoAssemble: boolean;
   projectConfig?: ProjectConfig;
@@ -28,7 +28,7 @@ export class ConfigurationManager {
     emulatorPath: '/Applications/trs80gp.app/Contents/MacOS/trs80gp',
     zmacPath: 'zmac',
     outputDir: '.zout',
-    emulatorArgs: ['-m3'],
+    emulatorArgs: '',
     target: 'model3',
     autoAssemble: true
   };
@@ -37,15 +37,14 @@ export class ConfigurationManager {
     const config = vscode.workspace.getConfiguration('trs80gp');
     const workspaceFolder = vscode.workspace.workspaceFolders?.[0];
     
-    // Global configuration with robust fallback defaults
-    const globalConfig: TRS80Config = {
-      emulatorPath: config.get('emulatorPath') || this.DEFAULT_CONFIG.emulatorPath!,
-      zmacPath: config.get('zmacPath') || this.DEFAULT_CONFIG.zmacPath!,
-      outputDir: config.get('defaultOutputDir') || this.DEFAULT_CONFIG.outputDir!,
-      emulatorArgs: config.get('defaultEmulatorArgs') || this.DEFAULT_CONFIG.emulatorArgs!,
-      target: config.get('defaultTarget') || this.DEFAULT_CONFIG.target!,
-      autoAssemble: config.get('autoAssemble') ?? this.DEFAULT_CONFIG.autoAssemble!
-    };
+    // Start with extension defaults
+    let emulatorArgs = this.DEFAULT_CONFIG.emulatorArgs!;
+    let outputDir = this.DEFAULT_CONFIG.outputDir!;
+    let target = this.DEFAULT_CONFIG.target!;
+    let autoAssemble = this.DEFAULT_CONFIG.autoAssemble!;
+    let emulatorPath = this.DEFAULT_CONFIG.emulatorPath!;
+    let zmacPath = this.DEFAULT_CONFIG.zmacPath!;
+    let projectConfig: ProjectConfig = {};
 
     // Project-specific configuration
     if (workspaceFolder) {
@@ -54,52 +53,72 @@ export class ConfigurationManager {
         '.vscode',
         this.PROJECT_CONFIG_FILE
       );
-      
       if (fs.existsSync(projectConfigPath)) {
         try {
           const projectConfigText = fs.readFileSync(projectConfigPath, 'utf8');
-          const projectConfig: ProjectConfig = JSON.parse(projectConfigText);
-          
-          globalConfig.projectConfig = projectConfig;
-          
-          // Override global settings with project settings (only if defined)
-          if (projectConfig.outputDir !== undefined) {
-            globalConfig.outputDir = projectConfig.outputDir;
+          projectConfig = JSON.parse(projectConfigText);
+          if (projectConfig && projectConfig.outputDir !== undefined) {
+            outputDir = projectConfig.outputDir;
           }
-          if (projectConfig.emulatorArgs !== undefined && Array.isArray(projectConfig.emulatorArgs)) {
-            globalConfig.emulatorArgs = [...projectConfig.emulatorArgs];
+          if (projectConfig && typeof projectConfig.emulatorArgs === 'string') {
+            emulatorArgs = projectConfig.emulatorArgs;
           }
-          if (projectConfig.target !== undefined) {
-            globalConfig.target = projectConfig.target;
+          if (projectConfig && projectConfig.target !== undefined) {
+            target = projectConfig.target;
           }
-          
-          console.log('TRS80GP: Loaded project configuration:', projectConfigPath);
         } catch (error) {
           console.error('TRS80GP: Error reading project configuration:', error);
-          // Continue with global config on error
         }
-      } else {
-        console.log('TRS80GP: No project configuration found, using defaults and VS Code settings');
       }
     }
 
+    // VS Code settings.json (user/workspace settings) take precedence
+    if (typeof config.get('emulatorArgs') === 'string') {
+      emulatorArgs = config.get('emulatorArgs')!;
+    }
+    if (typeof config.get('emulatorPath') === 'string' && config.get('emulatorPath')) {
+      emulatorPath = config.get('emulatorPath')!;
+    }
+    if (typeof config.get('zmacPath') === 'string' && config.get('zmacPath')) {
+      zmacPath = config.get('zmacPath')!;
+    }
+    if (typeof config.get('defaultOutputDir') === 'string' && config.get('defaultOutputDir')) {
+      outputDir = config.get('defaultOutputDir')!;
+    }
+    if (typeof config.get('defaultTarget') === 'string' && config.get('defaultTarget')) {
+      target = config.get('defaultTarget')!;
+    }
+    if (typeof config.get('autoAssemble') === 'boolean') {
+      autoAssemble = config.get('autoAssemble')!;
+    }
+
     // Validate emulator arguments to ensure they're proper
-    if (!Array.isArray(globalConfig.emulatorArgs) || globalConfig.emulatorArgs.length === 0) {
-      console.warn('TRS80GP: Invalid emulatorArgs, using default [-m3]');
-      globalConfig.emulatorArgs = ['-m3'];
+    if (typeof emulatorArgs !== 'string') {
+      console.warn('TRS80GP: Invalid emulatorArgs, using default "-m3"');
+      emulatorArgs = '-m3';
     }
 
     // Log final configuration for debugging
     console.log('TRS80GP: Final configuration:', {
-      emulatorPath: globalConfig.emulatorPath,
-      emulatorArgs: globalConfig.emulatorArgs,
-      target: globalConfig.target,
-      outputDir: globalConfig.outputDir,
-      hasProjectConfig: !!globalConfig.projectConfig
+      emulatorPath,
+      emulatorArgs,
+      target,
+      outputDir,
+      hasProjectConfig: Object.keys(projectConfig).length > 0
     });
 
     // Ensure all fields are valid and have fallback defaults
-    return this.ensureMinimalConfiguration(globalConfig);
+    return this.ensureMinimalConfiguration({
+      emulatorPath,
+      zmacPath,
+      outputDir,
+      emulatorArgs,
+      target,
+      autoAssemble,
+      projectConfig
+    });
+
+    // ...existing code...
   }
 
   public static async createProjectConfig(): Promise<void> {
@@ -143,7 +162,7 @@ export class ConfigurationManager {
     return {
       outputDir: '.zout',
       zmacArgs: ["--od", ".zout", "-L", "-m"],
-      emulatorArgs: ['-m3'],
+      emulatorArgs: '-m3',
       target: 'model3',
       defaultSourceFile: 'main.a80'
     };
@@ -165,8 +184,8 @@ export class ConfigurationManager {
       validatedConfig.outputDir = this.DEFAULT_CONFIG.outputDir!;
     }
 
-    if (!Array.isArray(validatedConfig.emulatorArgs) || validatedConfig.emulatorArgs.length === 0) {
-      validatedConfig.emulatorArgs = [...this.DEFAULT_CONFIG.emulatorArgs!];
+    if (typeof validatedConfig.emulatorArgs !== 'string') {
+      validatedConfig.emulatorArgs = this.DEFAULT_CONFIG.emulatorArgs!;
     }
 
     if (!validatedConfig.target || !['model1', 'model3', 'model4'].includes(validatedConfig.target)) {

@@ -54,23 +54,6 @@ export function activate(context: vscode.ExtensionContext) {
 	// const outputChannel = vscode.window.createOutputChannel('TRS-80 Debug');
 	// const debugAdapterDisposable = TRS80DebugAdapter.register(context, outputChannel);
 	// context.subscriptions.push(debugAdapterDisposable);
-
-	// Show welcome message for first-time users
-	const config = vscode.workspace.getConfiguration('trs80gp');
-	const showWelcome = config.get('showWelcome', true);
-	if (showWelcome) {
-		vscode.window.showInformationMessage(
-			'TRS-80 Development Extension is ready! Try "TRS-80: Run" from the Command Palette.',
-			'Open Command Palette',
-			'Don\'t show again'
-		).then(choice => {
-			if (choice === 'Open Command Palette') {
-				vscode.commands.executeCommand('workbench.action.showCommands');
-			} else if (choice === 'Don\'t show again') {
-				config.update('showWelcome', false, vscode.ConfigurationTarget.Global);
-			}
-		});
-	}
 }
 
 // This method is called when your extension is deactivated

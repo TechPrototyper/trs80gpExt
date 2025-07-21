@@ -20,6 +20,7 @@ export class EmulatorManager {
     this.outputChannel = vscode.window.createOutputChannel('TRS-80 Emulator');
   }
 
+
   public static getInstance(): EmulatorManager {
     if (!EmulatorManager.instance) {
       EmulatorManager.instance = new EmulatorManager();
@@ -32,7 +33,8 @@ export class EmulatorManager {
     bdsFile: string,
     cmdFile: string,
     sourceFile: string,
-    emulatorArgs: string[] = [],
+    modelArg: string,
+    emulatorArgs: string = '',
     breakpointArgs: string[] = [],
     isDebugMode: boolean = false
   ): Promise<EmulatorInstance> {
@@ -45,8 +47,11 @@ export class EmulatorManager {
 
     // Build command arguments - pass CMD file as a regular argument
     // TRS-80GP will automatically load and execute .cmd files
+    // Build argument list: model argument, then user args, then breakpoints
+    const userArgs = emulatorArgs.trim() === '' ? [] : emulatorArgs.split(' ');
     const args = [
-      ...emulatorArgs,
+      modelArg,
+      ...userArgs,
       ...breakpointArgs
     ];
 

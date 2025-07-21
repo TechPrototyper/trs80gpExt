@@ -119,7 +119,9 @@ export class BreakpointManager {
 
       for (let i = 0; i < lines.length; i++) {
         const line = lines[i].trim();
-        if (!line) continue;
+        if (!line) {
+          continue;
+        }
 
         // Parse zmac BDS format
         // Label definition format: "ADDRESS a LABEL"
