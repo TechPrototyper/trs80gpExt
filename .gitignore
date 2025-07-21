@@ -79,3 +79,6 @@ tmp/
 # Local development files
 *.local
 *.dev
+
+# VSIX packages (these go into releases, not repository)
+*.vsix
