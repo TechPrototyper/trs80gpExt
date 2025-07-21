@@ -15,6 +15,7 @@ tsconfig.json
 .zout/**
 build/**
 out/**/*.map
+out/test/**
 **/*.ts
 
 # Node.js and development
