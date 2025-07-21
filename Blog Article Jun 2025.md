@@ -12,7 +12,7 @@ The original Model I featured a monochrome display capable of 64×16 text charac
 
 So why are folks like us still fiddling with these ancient machines? Well, there's something magical about the constraints of these systems. When every byte counts and processor cycles are precious, coding becomes a beautiful puzzle that rewards cleverness and efficiency.
 
-If you're diving into this world, definitely check out [Ira Goldklang's TRS-80 Revived Site](https://www.trs-80.com/) for an amazing archive of information. The [Tandy Assembly](https://tandyassembly.com/) folks also do incredible work keeping the community vibrant, with fantastic content on their [YouTube channel](https://www.youtube.com/c/TandyAssembly).
+If you're diving into this world, definitely check out [Ira Goldklang's TRS-80 Revived Site](https://www.trs-80.com/) for an amazing archive of information. The [Tandy Assembly](https://www.tandyassembly.com/) folks also do incredible work keeping the community vibrant, with fantastic content on their [YouTube channel](https://www.youtube.com/@tandyassembly3099).
 
 ## The TRS-80 Ecosystem: More Than Just BASIC
 
