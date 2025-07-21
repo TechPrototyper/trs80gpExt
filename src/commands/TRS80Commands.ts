@@ -126,25 +126,37 @@ export class TRS80Commands {
       return null;
     }
 
-    // Try active editor first
+    // Check active editor first - this takes priority
     const activeEditor = vscode.window.activeTextEditor;
-    if (activeEditor && this.isAssemblyFile(activeEditor.document.fileName)) {
-      return activeEditor.document.fileName;
+    if (activeEditor) {
+      const fileName = activeEditor.document.fileName;
+      if (this.isAssemblyFile(fileName)) {
+        // Active file is a valid assembly file - use it
+        return fileName;
+      } else {
+        // Active file is NOT an assembly file - show error
+        const baseName = path.basename(fileName);
+        vscode.window.showErrorMessage(
+          `"${baseName}" is not a Z-80 assembly language source file. ` +
+          `Please open a .z, .a80, .asm, or .s file.`
+        );
+        return null;
+      }
     }
 
-    // Try project config default
+    // No active editor - try project config default
     if (config.projectConfig?.defaultSourceFile) {
       const defaultFile = path.join(
         workspaceFolder.uri.fsPath,
         config.projectConfig.defaultSourceFile
       );
-      if (fs.existsSync(defaultFile)) {
+      if (fs.existsSync(defaultFile) && this.isAssemblyFile(defaultFile)) {
         return defaultFile;
       }
     }
 
-    // Find any assembly files in workspace (.z, .a80, .asm)
-    const files = await vscode.workspace.findFiles('**/*.{z,a80,asm}', '**/node_modules/**', 10);
+    // Find any assembly files in workspace (.z, .a80, .asm, .s)
+    const files = await vscode.workspace.findFiles('**/*.{z,a80,asm,s}', '**/node_modules/**', 10);
     if (files.length === 1) {
       return files[0].fsPath;
     } else if (files.length > 1) {
@@ -162,8 +174,9 @@ export class TRS80Commands {
       return chosen?.filePath || null;
     }
 
+    // No assembly files found anywhere
     vscode.window.showErrorMessage(
-      'No Z-80 assembly file found. Please open a .z, .a80, or .asm file or configure defaultSourceFile.'
+      'No Z-80 assembly file found. Please open a .z, .a80, .asm, or .s file.'
     );
     return null;
   }
